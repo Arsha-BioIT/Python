@@ -1,0 +1,47 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+
+# Load the dataset
+df = pd.read_csv(r"C:\Users\Arsha\Downloads\patients - Sheet1.csv")
+
+# Display first 5 rows
+print(df.head(), "\n")
+
+# Basic statistics of Age
+print(f"The mean age of the patients: {df['Age'].mean():.2f}\n")
+print(f"The median age of the patients: {df['Age'].median()}\n")
+print(f"The standard deviation of patients' age: {df['Age'].std():.2f}\n")
+print(f"The maximum age among patients: {df['Age'].max()}")
+print(f"The minimum age among patients: {df['Age'].min()}\n")
+
+# Age Distribution Counts
+age_ranges = {
+    "0-18": df[(df["Age"] >= 0) & (df["Age"] <= 18)].count()[0],
+    "19-35": df[(df["Age"] >= 19) & (df["Age"] <= 35)].count()[0],
+    "36-50": df[(df["Age"] >= 36) & (df["Age"] <= 50)].count()[0],
+    "51-65": df[(df["Age"] >= 51) & (df["Age"] <= 65)].count()[0],
+    "66+": df[df["Age"] >= 66].count()[0],
+}
+
+# Convert dictionary to DataFrame
+count_df = pd.DataFrame(list(age_ranges.items()), columns=["Age Range", "Count"])
+print(count_df, "\n")
+
+# Gender Counts & Percentages
+gender_counts = df["Gender"].value_counts()
+male_count, female_count = gender_counts.get("Male", 0), gender_counts.get("Female", 0)
+total_patients = len(df)
+
+print(f"Total male count: {male_count}\nTotal female count: {female_count}\n")
+print(f"Male patient percentage: {round((male_count / total_patients) * 100, 2)}%")
+print(f"Female patient percentage: {round((female_count / total_patients) * 100, 2)}%\n")
+
+# Patient Count by Medical Condition
+condition_groups = df["Condition"].value_counts()
+print(f"Number of patients affected by different conditions:\n{condition_groups}\n")
+
+# Plot Age Distribution Bar Chart
+fig = px.bar(count_df, x="Age Range", y="Count", title="Distribution of Patients by Age")
+fig.show()
