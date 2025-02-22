@@ -1,0 +1,38 @@
+import pandas as pd
+
+# Read the TSV file
+df = pd.read_csv(r"C:\Users\Arsha\Downloads\human_liver.tsv", sep="\t")
+
+# Display summary statistics
+print(df.describe())
+
+# Filter rows where values in column 'GSM742944' are greater than its mean
+print(df[df["GSM742944"] > df["GSM742944"].mean()])
+
+# Group by 'genes' and aggregate 'GSM2653850' by sum
+print(df.groupby("genes").agg({"GSM2653850": "sum"}))
+
+# Duplicate the dataset
+df1 = pd.concat([df, df])
+
+# Group by 'genes' and calculate sum & mean of 'GSM2653850'
+print(df1.groupby("genes").agg({"GSM2653850": ["sum", "mean"]}))
+
+# Filter rows where 'GSM2653853' is greater than the minimum of 'GSM2653851'
+print(df[df["GSM2653853"] > df["GSM2653851"].min()])
+
+# Group by 'genes' and aggregate 'GSM2653850' by sum (repeated operation)
+print(df.groupby("genes").agg({"GSM2653850": "sum"}))
+
+# Transpose the DataFrame
+print(df.T)
+
+# Set 'genes' as index
+df_1 = df.set_index("genes")
+
+# Count the number of columns (excluding 'genes')
+print(len(df.columns) - 1)
+
+# Correct way to create an empty DataFrame with 'genes' column
+df_3 = pd.DataFrame(columns=["genes"])
+print(df_3)
