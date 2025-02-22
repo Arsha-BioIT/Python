@@ -1,0 +1,81 @@
+# Counting GC Content in DNA using a for loop
+def gc_count():
+    """
+    Calculates the GC content percentage in a given DNA sequence.
+    """
+    sequence = input("Enter the DNA sequence: ").upper()  # Ensure input is uppercase
+    gc_content = 0
+    
+    for base in sequence:
+        if base == "G" or base == "C":
+            gc_content += 1
+
+    if len(sequence) == 0:  # Handling empty input to avoid division by zero
+        print("Invalid input! Sequence cannot be empty.")
+        return
+
+    print(f"GC Content: {round(gc_content / len(sequence) * 100, 2)}%")
+
+# Uncomment to use
+# gc_count()
+
+# Finding Specific Motif in a DNA Sequence using a while loop
+def motif_count():
+    """
+    Finds all occurrences of a motif in a DNA sequence and prints their start positions.
+    """
+    dna = input("Enter the DNA sequence: ").upper()
+    motif = input("Enter the motif sequence: ").upper()
+    
+    if len(motif) > len(dna) or len(motif) == 0:
+        print("Invalid motif! It must be shorter than or equal to the DNA sequence.")
+        return
+
+    index = 0
+    found = False
+    
+    while index <= len(dna) - len(motif):
+        if dna[index:index+len(motif)] == motif:
+            print(f"Motif found at index: {index}")
+            found = True
+        index += 1
+
+    if not found:
+        print("Motif not found.")
+
+# Uncomment to use
+# motif_count()
+
+# Translating DNA to RNA Using a Function
+def rna_prompter():
+    """
+    Converts a given DNA sequence to RNA by replacing 'T' with 'U'.
+    """
+    dna = input("Enter the DNA sequence: ").upper()
+    
+    if "U" in dna:  # Checking if input contains 'U' (RNA base), which is incorrect for DNA
+        print("Invalid input! DNA should not contain 'U'.")
+        return
+
+    rna = dna.replace("T", "U")
+    print("RNA Sequence:", rna)
+
+# Uncomment to use
+# rna_prompter()
+
+# Reverse Transcription: Converting RNA to DNA
+def rt():
+    """
+    Converts a given RNA sequence to DNA by replacing 'U' with 'T'.
+    """
+    rna = input("Enter the RNA sequence: ").upper()
+
+    if "T" in rna:  # Checking if input contains 'T', which is incorrect for RNA
+        print("Invalid input! RNA should not contain 'T'.")
+        return
+
+    dna = rna.replace("U", "T")
+    print("The DNA sequence:", dna)
+
+# Uncomment to use
+# rt()
