@@ -1,0 +1,38 @@
+import matplotlib.pyplot as plt
+import plotly.express as px
+
+# ✅ Print Plotly Module
+print(px)
+
+# ✅ Load & Filter Canada Data
+data_canada = px.data.gapminder().query("country=='Canada'")
+print(data_canada)
+
+# ✅ Print & Create Population Bar Chart
+print(px.bar(data_canada, x="year", y="pop"))
+fig = px.bar(data_canada, x="year", y="pop", title="Canada Population Over Time")
+fig.show()
+
+# ✅ Create & Show Life Expectancy and GDP Bar Charts
+fig2 = px.bar(data_canada, x="year", y="lifeExp", title="Canada Life Expectancy Over Time")
+fig2.show()
+
+fig3 = px.bar(data_canada, x="year", y="gdpPercap", title="Canada GDP Per Capita Over Time")
+fig3.show()
+
+# ✅ Load & Print Olympic Medal Data
+long_df = px.data.medals_long()
+print(long_df)
+
+# ✅ Create & Show Olympic Medal Bar Chart
+fig4 = px.bar(long_df, x="nation", y="count", 
+              color_discrete_sequence=["#d8c01c", "#db7030", "#d7d7cb"],
+              title="Olympic Medal Count by Nation")
+fig4.show()
+
+# ✅ Matplotlib Bar Plot
+plt.bar(data_canada["year"], data_canada["pop"], color="blue")
+plt.xlabel("Year")
+plt.ylabel("Population")
+plt.title("Canada Population Over Time (Matplotlib)")
+plt.show()
