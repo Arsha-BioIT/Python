@@ -1,0 +1,10 @@
+user_input = input("Give the DNA sequence: ").upper()  
+a = user_input.count("A")
+b = user_input.count("T")
+c = user_input.count("G")
+d = user_input.count("C")
+
+print(f"Adenine (A) is present {a} times")
+print(f"Thymine (T) is present {b} times")
+print(f"Guanine (G) is present {c} times")
+print(f"Cytosine (C) is present {d} times")
