@@ -1,0 +1,41 @@
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+import plotly.express as px
+
+# Load data
+df = pd.read_csv(r"C:\Users\Arsha\Desktop\fibrosis_smoc2_rawcounts.csv")
+print(df.head())
+
+# Select numeric data and transpose
+num = df.iloc[:, 1:].T.to_numpy()
+print("Data Shape:", num.shape)
+
+# Perform PCA
+pca = PCA(n_components=2)
+p_comp = pca.fit_transform(num)
+print("PCA Shape:", p_comp.shape)
+
+# Create PCA DataFrame
+pca_df = pd.DataFrame(data=p_comp, columns=["PCA1", "PCA2"])
+pca_df["Samples"] = df.columns[1:]  # Assign column names as samples
+
+print(pca_df)
+
+# Scatter plot for PCA
+fig = px.scatter(pca_df, x="PCA1", y="PCA2", color="Samples", title="PCA Scatter Plot")
+fig.show()
+
+# Normalization using MinMaxScaler
+scaler = MinMaxScaler()
+normalized_values = scaler.fit_transform(df.iloc[:, 1:])
+
+# Create DataFrame with normalized values
+normalized_df = pd.DataFrame(normalized_values, columns=df.columns[1:])
+
+# Print mean of "smoc2_fibrosis1" if exists
+if "smoc2_fibrosis1" in normalized_df.columns:
+    print(f"Mean of smoc2_fibrosis1 after normalization: {normalized_df['smoc2_fibrosis1'].mean()}")
+else:
+    print("Column 'smoc2_fibrosis1' not found in normalized DataFrame.")
