@@ -1,0 +1,103 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sb
+
+# Load the gene expression dataset
+expression = pd.read_csv(r"C:\Users\Arsha\Downloads\gene_expression_25_09.csv")
+
+# Display dataset overview
+print(expression.head())
+print("\nBasic Statistics:\n")
+
+# Check if required columns exist before computation
+required_columns = ["Gene_Expression", "Gene_A_Expression", "Gene_B_Expression", "Sample"]
+for col in required_columns:
+    if col not in expression.columns:
+        raise KeyError(f"Missing required column: {col}")
+
+# Compute and display mean values
+print(f"Mean Gene_Expression: {expression['Gene_Expression'].mean():.2f}")
+print(f"Mean Gene_A_Expression: {expression['Gene_A_Expression'].mean():.2f}")
+print(f"Mean Gene_B_Expression: {expression['Gene_B_Expression'].mean():.2f}")
+print("\n")
+
+# Compute and display median values
+print(f"Median Gene_Expression: {expression['Gene_Expression'].median():.2f}")
+print(f"Median Gene_A_Expression: {expression['Gene_A_Expression'].median():.2f}")
+print(f"Median Gene_B_Expression: {expression['Gene_B_Expression'].median():.2f}")
+print("\n")
+
+# Compute and display standard deviation
+print(f"Std Dev Gene_Expression: {expression['Gene_Expression'].std():.4f}")
+print(f"Std Dev Gene_A_Expression: {expression['Gene_A_Expression'].std():.4f}")
+print(f"Std Dev Gene_B_Expression: {expression['Gene_B_Expression'].std():.4f}")
+
+# Plot histograms for gene expression levels
+plt.figure(figsize=(8, 6))
+plt.hist(expression["Gene_Expression"], label="Gene_Expression", color="red", edgecolor="black", alpha=0.7)
+plt.hist(expression["Gene_A_Expression"], label="Gene_A_Expression", color="green", edgecolor="black", alpha=0.7)
+plt.hist(expression["Gene_B_Expression"], label="Gene_B_Expression", color="orange", edgecolor="black", alpha=0.7)
+plt.xlabel("Expression Levels")
+plt.ylabel("Number of Samples")
+plt.title("Histogram of Gene Expression Levels")
+plt.legend()
+plt.show()
+
+# Density plots for gene expression levels
+plt.figure(figsize=(8, 6))
+sb.kdeplot(expression['Gene_Expression'], label='Gene_Expression', fill=True, color="red")
+sb.kdeplot(expression['Gene_A_Expression'], label='Gene_A_Expression', fill=True, color="green")
+sb.kdeplot(expression['Gene_B_Expression'], label='Gene_B_Expression', fill=True, color="orange")
+plt.xlabel('Expression Levels')
+plt.ylabel('Density')
+plt.title('Density Plot of Gene Expression Levels')
+plt.legend()
+plt.show()
+
+# Box plot for gene expression levels across samples
+plt.figure(figsize=(10, 6))
+sb.boxplot(x="Sample", y="Gene_Expression", data=expression, color="red", width=0.6)
+sb.boxplot(x="Sample", y="Gene_A_Expression", data=expression, color="green", width=0.6)
+sb.boxplot(x="Sample", y="Gene_B_Expression", data=expression, color="orange", width=0.6)
+plt.xlabel("Sample")
+plt.ylabel("Gene Expression Level")
+plt.title("Box Plot of Gene Expression Levels by Sample")
+plt.xticks(rotation=45)
+plt.show()
+
+# Reshape data for violin plot
+expression_melted = pd.melt(expression, id_vars=["Sample"], value_vars=["Gene_Expression", "Gene_A_Expression", "Gene_B_Expression"],
+                            var_name='Gene', value_name='Expression_Level')
+
+# Violin plot for gene expression levels
+plt.figure(figsize=(8, 6))
+sb.violinplot(x='Gene', y='Expression_Level', data=expression_melted, palette=["#f74545", "#42eb45", "#ff9833"], inner="quartile")
+plt.xlabel('Gene')
+plt.ylabel('Expression Level')
+plt.title('Violin Plot of Gene Expression Levels')
+plt.show()
+
+# Scatter plots to visualize relationships between genes
+plt.figure(figsize=(6, 5))
+sb.scatterplot(x="Gene_Expression", y="Gene_A_Expression", data=expression, hue="Sample", s=80)
+plt.xlabel('Gene_Expression')
+plt.ylabel('Gene_A_Expression')
+plt.title('Scatter Plot: Gene Expression vs. Gene A Expression')
+plt.legend(title="Sample", loc="best")
+plt.show()
+
+plt.figure(figsize=(6, 5))
+sb.scatterplot(x="Gene_A_Expression", y="Gene_B_Expression", data=expression, hue="Sample", s=80)
+plt.xlabel('Gene_A_Expression')
+plt.ylabel('Gene_B_Expression')
+plt.title('Scatter Plot: Gene A Expression vs. Gene B Expression')
+plt.legend(title="Sample", loc="best")
+plt.show()
+
+plt.figure(figsize=(6, 5))
+sb.scatterplot(x="Gene_B_Expression", y="Gene_Expression", data=expression, hue="Sample", s=80)
+plt.xlabel('Gene_B_Expression')
+plt.ylabel('Gene_Expression')
+plt.title('Scatter Plot: Gene B Expression vs. Gene Expression')
+plt.legend(title="Sample", loc="best")
+plt.show()
