@@ -1,0 +1,54 @@
+import pandas as pd
+
+# Creating the first dataset
+data = {
+    "name": ["Sita", "Gita", "Niti"],
+    "weight": [25, 26, 27],
+    "height": [183, 172, 145]
+}
+
+# Converting dictionary to DataFrame
+df = pd.DataFrame(data)
+
+# Printing DataFrame neatly
+print("First Dataset:")
+print(df.to_string(index=False))
+
+# Display basic statistical summary
+print("\nSummary Statistics of Numeric Columns:")
+print(df.describe())
+
+# Counting non-null values in 'name' column
+print("\nTotal Count of Names:", df["name"].count())
+
+# Calculating mode (most frequent value) of 'height' column
+print("\nMode of Heights:", df["height"].mode().values)
+
+# Finding the maximum height
+print("\nMaximum Height:", df["height"].max())
+
+# Creating the second dataset with duplicate names
+data2 = {
+    "name": ["Sita", "Sita", "Gita", "Babita", "Babita", "Babita"],
+    "weight": [25, 26, 27, 24, 62, 45],
+    "height": [183, 172, 145, 147, 152, 145]
+}
+
+# Converting dictionary to DataFrame
+df2 = pd.DataFrame(data2)
+
+# Printing DataFrame neatly
+print("\nSecond Dataset:")
+print(df2.to_string(index=False))
+
+# Grouping data by name and calculating sum and mean for 'weight' and 'height'
+grouped_data = df2.groupby("name").agg({
+    "weight": ["sum", "mean"],
+    "height": ["sum", "mean"]
+})
+
+print("\nAggregated Statistics (Grouped by Name):")
+print(grouped_data)
+
+# Calculating overall mean of 'weight' rounded to 2 decimal places
+print("\nAverage Weight Across All Entries:", round(df2["weight"].mean(), 2))
