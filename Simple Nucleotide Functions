@@ -1,0 +1,33 @@
+def calculate_gc_content(dna_seq):
+    """Calculates and returns the GC content percentage of a DNA sequence."""
+    gc_count = dna_seq.count("g") + dna_seq.count("c")
+    gc_percentage = (gc_count / len(dna_seq)) * 100
+    return round(gc_percentage, 2)
+
+def get_complement(dna_seq):
+    """Returns the complementary DNA sequence."""
+    complement_map = {"a": "T", "t": "A", "g": "C", "c": "G"}
+    complement_seq = "".join(complement_map[base] for base in dna_seq)
+    return complement_seq
+
+def validate_dna(dna_seq):
+    """Checks if the sequence contains only valid DNA bases."""
+    return all(base in "atgc" for base in dna_seq)
+
+# Taking user input and converting it to lowercase
+dna = input("Enter the DNA sequence: ").strip().lower()
+
+# Validating the input
+if not dna or not validate_dna(dna):
+    print("Error: Invalid DNA sequence! Please enter a valid sequence containing only A, T, G, and C.")
+else:
+    # Calculate GC content
+    gc_percentage = calculate_gc_content(dna)
+    print(f"The GC percentage is {gc_percentage}%")
+
+    # Compute Complementary and Reverse Complement Sequences
+    complement_seq = get_complement(dna)
+    reverse_complement_seq = complement_seq[::-1]
+
+    print(f"The complementary sequence: {complement_seq}")
+    print(f"The reverse complement: {reverse_complement_seq}")
