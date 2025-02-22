@@ -1,0 +1,79 @@
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 📌 **Load dataset into Pandas DataFrame**
+df = pd.read_csv(r"C:\Users\Arsha\Downloads\clinical_trial_data - Sheet1.csv")
+
+# 📌 **Summary statistics for numerical columns**
+print(df.describe())
+
+# Store summary statistics
+stat_data = df.describe()
+stat_data.index.name = "Summary Statistics"
+
+# 📌 **Check for missing values**
+print("\nMissing Values:\n", df.isnull().sum())
+
+# 📌 **Check data types**
+print("\nData Types:\n", df.dtypes)
+
+# 📌 **Filter summary statistics for relevant columns**
+if all(col in df.columns for col in ["age", "blood_pressure", "outcome"]):
+    print("\nSummary Statistics:\n", stat_data[["age", "blood_pressure", "outcome"]])
+else:
+    print("\nWarning: Some expected columns (age, blood_pressure, outcome) are missing!")
+
+# --- 📊 Data Visualization ---
+
+# 📌 **Histogram: Age Distribution**
+plt.figure(figsize=(8,5))
+plt.hist(df["age"], color="green", edgecolor="black", bins=10)
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.ylabel("Number of Patients")
+plt.xticks(range(int(df["age"].min()), int(df["age"].max())+1, 5))  # Dynamically adjust xticks
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+plt.show()
+
+# 📌 **Histogram: Blood Pressure Distribution**
+plt.figure(figsize=(8,5))
+plt.hist(df["blood_pressure"], color="red", edgecolor="black", bins=10)
+plt.title("Blood Pressure Distribution")
+plt.xlabel("Blood Pressure")
+plt.ylabel("Number of Patients")
+plt.xticks(range(int(df["blood_pressure"].min()), int(df["blood_pressure"].max())+5, 5))
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+plt.show()
+
+# 📌 **Box Plot: Age Distribution Across Gender**
+if "gender" in df.columns:
+    plt.figure(figsize=(8,5))
+    sns.boxplot(x="gender", y="age", data=df, palette="pastel")
+    plt.xlabel("Gender")
+    plt.ylabel("Age")
+    plt.title("Age Distribution Across Gender")
+    plt.show()
+else:
+    print("\nWarning: 'gender' column is missing, skipping box plot for Age.")
+
+# 📌 **Box Plot: Blood Pressure Distribution Across Gender**
+if "gender" in df.columns:
+    plt.figure(figsize=(8,5))
+    sns.boxplot(x="gender", y="blood_pressure", data=df, palette="pastel")
+    plt.xlabel("Gender")
+    plt.ylabel("Blood Pressure")
+    plt.title("Blood Pressure Distribution Across Gender")
+    plt.show()
+else:
+    print("\nWarning: 'gender' column is missing, skipping box plot for Blood Pressure.")
+
+# 📌 **Scatter Plot: Age vs Blood Pressure**
+plt.figure(figsize=(10,6))
+plt.scatter(df["age"], df["blood_pressure"], marker="x", color="#9827a6", alpha=0.7)
+plt.title("Age vs Blood Pressure Scatter Plot")
+plt.xlabel("Age")
+plt.ylabel("Blood Pressure")
+plt.grid(True, linestyle="--", alpha=0.7)
+plt.show()
