@@ -1,0 +1,11 @@
+peptide = "Ala-Ala-Gly-Gly-Ile-Leu-Ala-Glu-Trp-Tyr-Tyr-Ala-Leu-Ala-Ala"
+peptide_list = peptide.split("-")
+
+print(peptide_list)  # Print the list of amino acids
+
+# Iterate over unique amino acids
+for i in set(peptide_list):
+    count = peptide_list.count(i)  # Store count to avoid redundant calls
+    percentage = round((count / len(peptide_list)) * 100, 2)
+    
+    print(f"{i} is present {count} times and its probable percentage is {percentage} %")
