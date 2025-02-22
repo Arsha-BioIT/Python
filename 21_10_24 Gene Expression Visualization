@@ -1,0 +1,55 @@
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load dataset (Ensure the correct file path)
+df = pd.read_csv(r"C:\Users\Arsha\Downloads\human_liver.tsv", sep="\t")
+
+# 📌 **Line Plot: Comparing GSM742944 vs GSM2326089**
+plt.figure(figsize=(10, 6))
+plt.plot(df["GSM742944"], df["GSM2326089"], marker="x", color="#9827a6")
+plt.title("Line Plot: GSM742944 vs GSM2326089")
+plt.xlabel("GSM742944")
+plt.ylabel("GSM2326089")
+plt.grid()
+plt.show()
+
+# 📌 **Scatter Plot: GSM742944 vs GSM2326089**
+plt.figure(figsize=(10, 6))
+plt.scatter(df["GSM742944"], df["GSM2326089"], marker="x", color="#9827a6")
+plt.title("Scatter Plot: GSM742944 vs GSM2326089")
+plt.xlabel("GSM742944")
+plt.ylabel("GSM2326089")
+plt.grid()
+plt.show()
+
+# 📌 **Bar Plot: Top 20 Genes by GSM2326089 Expression**
+ds = df.iloc[:20]  # Select first 20 rows
+plt.figure(figsize=(12, 6))
+plt.bar(ds["genes"], ds["GSM2326089"], color="#9827a6")
+plt.title("Bar Plot: Top 20 Genes by GSM2326089 Expression")
+plt.xlabel("Genes")
+plt.ylabel("GSM2326089 Expression")
+plt.xticks(rotation=90)  # Rotate x-axis labels for better visibility
+plt.grid()
+plt.show()
+
+plt.figure(figsize=(10,6))
+plt.plot(ds["A1BG"],ds["A1CF"], marker="x", color="#9827a6")
+plt.title("Line Plot")
+plt.xlabel("A1BG")
+plt.ylabel("A1CF")
+plt.grid()
+plt.show()
+
+da=ds.sort_values("A1BG", ascending=False)
+da=da.reset_index()
+da=da.iloc[:10]
+
+plt.figure(figsize=(10,6))
+plt.bar(da["index"],da["A1BG"], color="#9827a6")
+plt.title("Bar Plot")
+plt.xlabel("genes")
+plt.ylabel("GSM2326089")
+plt.grid()
+plt.show()
