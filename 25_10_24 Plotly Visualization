@@ -1,0 +1,26 @@
+import pandas as pd
+import plotly.express as px
+
+# 📌 Line Plot for Life Expectancy in Oceania
+country_data = px.data.gapminder().query("continent == 'Oceania'")
+fig = px.line(
+    country_data,
+    x="year",
+    y="lifeExp",
+    title="Oceania Life Expectancy Over Time",
+    color="country",
+    template="presentation"
+)
+fig.show()
+
+# 📌 Scatter Plot for Iris Dataset
+flower = px.data.iris()
+figure = px.scatter(
+    flower,
+    x="sepal_length",
+    y="sepal_width",
+    title="Scatter Plot of Iris Flower - Sepal",
+    color="species",
+    template="plotly_dark"
+)
+figure.show()
