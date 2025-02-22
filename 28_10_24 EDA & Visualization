@@ -1,0 +1,42 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 📌 Load Microbiome Data
+df = pd.read_csv(r"C:\Users\Arsha\Downloads\microbiome_sample_data - Sheet1.csv")
+
+# 📌 Set "Taxa" as Index
+df.set_index('Taxa', inplace=True)
+
+# 📌 Display Data Information
+print(df.head())  # Print first few rows
+print(df.columns)  # Print column names
+print(df.dtypes)  # Print data types
+print(df.shape)  # Print number of rows and columns
+print(df.isnull().sum())  # Print missing values per column
+
+# 📌 Add "Population" Column (Sum Across Samples)
+df["Population"] = df.sum(axis=1)
+
+# 📌 Print Taxa with Population > 10
+print(df[df["Population"] > 10])
+
+# 📌 Print Total Population Size
+print(f"The total Population size is {df['Population'].sum()}")
+
+# 📌 Calculate Relative Abundance
+relative_abundance = df.div(df.sum(axis=0), axis=1)
+print(f"The relative abundance table:\n{relative_abundance}")
+
+# 📌 Top 5 Taxa in Sample_1
+Sample1_High_RA = relative_abundance.sort_values(by="Sample_1", ascending=False)
+print(Sample1_High_RA.head(5)[["Sample_1"]])
+
+# 📌 Visualize Top 10 Taxa in Sample_1
+Sample1_High_RA_10 = Sample1_High_RA.head(10)[["Sample_1"]]
+print(Sample1_High_RA_10)
+Sample1_High_RA_10.plot.bar()
+
+plt.xlabel("Taxa")
+plt.ylabel("Relative Abundance")
+plt.title("Microbial Relative Abundance by Taxa in Sample_1")
+plt.show()
