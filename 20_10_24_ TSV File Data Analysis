@@ -33,6 +33,6 @@ df_1 = df.set_index("genes")
 # Count the number of columns (excluding 'genes')
 print(len(df.columns) - 1)
 
-# Correct way to create an empty DataFrame with 'genes' column
+# Create an empty DataFrame with 'genes' column
 df_3 = pd.DataFrame(columns=["genes"])
 print(df_3)
