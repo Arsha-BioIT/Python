@@ -1,0 +1,93 @@
+# Importing required libraries
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+# Locating and loading the patient dataset CSV file
+patient_dataset = pd.read_csv(r"C:\Users\Arsha\Desktop\Codes\Data Analysis\Patient_data.csv")
+
+# Displaying the complete dataset (optional, can be removed for large datasets)
+print("Full Dataset:")
+print(patient_dataset.to_string(index=False))
+
+# Displaying the first 5 rows
+print("\nFirst 5 Rows of the Dataset:")
+print(patient_dataset.head(5))
+
+# Getting dataset summary
+print("\nDataset Info:")
+print(patient_dataset.info())
+
+# Printing number of rows and columns
+print(f"\nTotal number of rows: {patient_dataset.shape[0]}")
+print(f"Total number of columns: {patient_dataset.shape[1]}")
+
+# Checking for missing values
+missing_values = patient_dataset.isnull().sum()
+print("\nMissing Values in Each Column:")
+print(missing_values)
+
+# Dropping rows with missing values (if any)
+cleaned_dataset = patient_dataset.dropna()
+print("\nDataset after Dropping Missing Values:")
+print(cleaned_dataset.to_string(index=False))
+
+# Removing duplicate records (if any)
+unique_dataset = patient_dataset.drop_duplicates()
+print("\nDataset after Removing Duplicates:")
+print(unique_dataset.to_string(index=False))
+
+# Filtering dataset to include only patients above age 50
+above_50 = patient_dataset[patient_dataset["Age"] > 50]
+print("\nPatients Above Age 50:")
+print(above_50.to_string(index=False))
+
+# Calculating and displaying statistics for "Blood Pressure" column
+print(f"\nThe average blood pressure is: {patient_dataset['Blood Pressure'].mean():.2f}")
+print(f"The minimum blood pressure is: {patient_dataset['Blood Pressure'].min()}")
+print(f"The maximum blood pressure is: {patient_dataset['Blood Pressure'].max()}")
+
+# Grouping the data by "Gender" and calculating the average "Blood Pressure"
+avg_bp_by_gender = patient_dataset.groupby("Gender")["Blood Pressure"].mean()
+print("\nAverage Blood Pressure by Gender:")
+print(avg_bp_by_gender)
+
+# Plotting a histogram of the "Age" column
+plt.hist(patient_dataset["Age"], color="green", edgecolor="black")
+
+# Adding titles and labels to the histogram
+plt.title("Age Distribution of Patients")
+plt.xlabel("Age")
+plt.ylabel("Number of Patients")
+
+# Displaying the histogram
+plt.show()
+
+# Generating a box plot to visualize "Blood Pressure" distribution across different "Gender"
+plt.figure()
+sns.boxplot(x="Gender", y="Blood Pressure", data=patient_dataset, color="red")
+
+# Adding titles and axis labels to the box plot
+plt.xlabel("Gender")
+plt.ylabel("Blood Pressure")
+plt.title("Blood Pressure Distribution Across Gender")
+
+# Displaying the Box Plot
+plt.show()
+
+# Identifying patients with highest blood pressure
+high_bp = patient_dataset.sort_values(by="Blood Pressure", ascending=False)
+
+# Displaying sorted dataset (optional)
+print("\nPatients Sorted by Blood Pressure (Highest to Lowest):")
+print(high_bp.to_string(index=False))
+
+# Extracting the top 5 patients with the highest blood pressure
+high_bp_5 = high_bp.head(5)
+print("\nTop 5 Patients with Highest Blood Pressure:")
+print(high_bp_5[["Patient Name", "Blood Pressure"]].to_string(index=False))
+
+# Saving the top 5 high BP patients to a CSV file
+high_bp_5.to_csv("Top_5_Blood_Pressure_Patients.csv", index=False)
+
+print("\nTop 5 Blood Pressure Patients saved successfully!")
